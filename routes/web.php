@@ -29,3 +29,9 @@ Route::get('/', function () {
 
     return view('pages.home', compact('chart1'));
 })->middleware('auth');
+
+Route::get('/dashboard/reset-password', [AuthController::class, 'renderReset']);
+Route::get('/dashboard/change-password', [AuthController::class, 'renderChange'])->name('change-password');
+Route::post('change-password', [AuthController::class, 'changePassword']);
+Route::post('reset-password', [AuthController::class, 'resetPassword']);
+

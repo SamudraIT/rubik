@@ -2,9 +2,12 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\Auth\SignIn;
+use App\Filament\Pages\Auth\SignUp;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\MenuItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -26,14 +29,24 @@ class DashboardPanelProvider extends PanelProvider
             ->default()
             ->id('dashboard')
             ->path('dashboard')
-            ->login()
+            ->login(SignIn::class)
+            ->registration(SignUp::class)
             ->colors([
-                'primary' => Color::Amber,
+
             ])
+            ->darkMode(false)
+            ->userMenuItems([
+                MenuItem::make()
+                    ->label('Profile')
+                    ->url('/dashboard/profile')
+                    ->icon('heroicon-o-cog-6-tooth')
+            ])
+            ->breadcrumbs(false)
+            ->viteTheme('resources/css/filament/dashboard/theme.css')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
-                Pages\Dashboard::class,
+                // Pages\Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->plugins([

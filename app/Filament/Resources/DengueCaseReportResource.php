@@ -13,9 +13,11 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\DB;
 
 class DengueCaseReportResource extends Resource
 {
@@ -33,6 +35,8 @@ class DengueCaseReportResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $hospitals = DB::table('hospitals')->get();
+
         return $form
             ->schema([
                 Section::make('Informasi Pasien')
@@ -54,7 +58,7 @@ class DengueCaseReportResource extends Resource
                         DatePicker::make('recovery_date')
                             ->label('Tanggal Berakhir Penyakit')
                             ->required(),
-                        Select::make('diseases_symptoms')
+                        Select::make('diseases_symptom')
                             ->label('Gejala Penyakit')
                             ->options([
                                 'Demam Tinggi Sampai 40 Derajat' => 'Demam Tinggi Sampai 40 Derajat',
@@ -89,7 +93,7 @@ class DengueCaseReportResource extends Resource
                             ->required(),
                         Select::make('hospital_id')
                             ->label('Lokasi Dirawat')
-                            ->relationship(name: 'hospitals', titleAttribute: 'name')
+                            ->options($hospitals->pluck('name', 'id'))
                             ->required()
                             ->columnSpanFull(),
                     ])->columns(2),
@@ -100,7 +104,17 @@ class DengueCaseReportResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('patient_name')
+                    ->label('Nama Pasien'),
+                TextColumn::make('patient_status')
+                    ->label('Status Pasien'),
+                TextColumn::make('diseases_symptom')
+                    ->label('Gejala Penyakit'),
+                TextColumn::make('phone_number')
+                    ->label('Nomor HP Pendamping'),
+                TextColumn::make('confirmation_date')
+                    ->label('Tanggal Terkonfirmasi')
+                    ->date(),
             ])
             ->filters([
                 //

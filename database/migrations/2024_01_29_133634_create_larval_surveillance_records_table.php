@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->string('ovitrap_ownership');
             $table->string('image');
             $table->string('reporter_code');
+            $table->string('rw');
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('district_id')->constrained()->cascadeOnDelete();
             $table->timestamps();

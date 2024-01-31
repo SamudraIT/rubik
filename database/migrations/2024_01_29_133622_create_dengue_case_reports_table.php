@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->string('phone_number');
             $table->date('confirmation_date');
             $table->date('recovery_date');
+            $table->string('rw');
             $table->foreignId('hospital_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('district_id')->constrained()->cascadeOnDelete();

@@ -14,7 +14,7 @@ class CreateDengueCaseReport extends CreateRecord
 
     protected function handleRecordCreation(array $data): Model
     {
-        $data['disease_symptoms'] = implode(", ", $data['disease_symptoms']);
+        $data['diseases_symptom'] = implode(", ", $data['diseases_symptom']);
 
         return static::getModel()::create($data);
     }
