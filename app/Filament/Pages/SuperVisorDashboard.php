@@ -37,8 +37,6 @@ class SuperVisorDashboard extends Page
     {
         return [
             SuperVisorStatsOverview::class,
-            SuperVisorDengueTable::class,
-            SuperVisorLarvaTable::class,
             SuperVisorDengueChart::class
         ];
     }
