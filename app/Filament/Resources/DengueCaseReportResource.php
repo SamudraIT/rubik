@@ -33,6 +33,17 @@ class DengueCaseReportResource extends Resource
 
     protected static ?string $slug = 'pencatatan-kasus-dbd';
 
+    public static function getEloquentQuery(): Builder
+    {
+        $user = auth()->user();
+
+        if ($user->profile->healthcare_professional) {
+            return parent::getEloquentQuery()->where('hospital_id', $user->profile->hospital_id);
+        } else {
+            return parent::getEloquentQuery()->where('district_id', $user->profile->district_id);
+        }
+    }
+
     public static function form(Form $form): Form
     {
         $hospitals = DB::table('hospitals')->get();

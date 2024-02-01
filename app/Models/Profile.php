@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Profile extends Model
@@ -27,5 +28,10 @@ class Profile extends Model
     public function districts(): HasMany
     {
         return $this->hasMany(District::class, 'district_id', 'id');
+    }
+
+    public function district(): BelongsTo
+    {
+        return $this->belongsTo(District::class, 'district_id');
     }
 }

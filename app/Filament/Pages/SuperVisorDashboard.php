@@ -2,7 +2,7 @@
 
 namespace App\Filament\Pages;
 
-use App\Filament\Widgets\SuperVisorDengueCaseChart;
+use App\Filament\Widgets\SuperVisorDengueChart;
 use App\Filament\Widgets\SuperVisorDengueTable;
 use App\Filament\Widgets\SuperVisorLarvaTable;
 use App\Filament\Widgets\SuperVisorStatsOverview;
@@ -19,12 +19,12 @@ class SuperVisorDashboard extends Page
 
     protected static string $view = 'filament.pages.super-visor-dashboard';
 
-    protected function beforeBooted(): void
+    protected function beforeBooted()
     {
         $completed_profile = auth()->user()->profile;
 
         if (!$completed_profile) {
-            dd('Lengkapi dulu profile anda');
+            return redirect('dashboard/profile');
         }
     }
 
@@ -39,7 +39,7 @@ class SuperVisorDashboard extends Page
             SuperVisorStatsOverview::class,
             SuperVisorDengueTable::class,
             SuperVisorLarvaTable::class,
-            SuperVisorDengueCaseChart::class
+            SuperVisorDengueChart::class
         ];
     }
 

@@ -20,6 +20,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 
 class DashboardPanelProvider extends PanelProvider
 {
@@ -34,6 +35,7 @@ class DashboardPanelProvider extends PanelProvider
             ->colors([
 
             ])
+            ->favicon(asset('img/logo.png'))
             ->darkMode(false)
             ->userMenuItems([
                 MenuItem::make()
@@ -48,9 +50,14 @@ class DashboardPanelProvider extends PanelProvider
             ->pages([
                 // Pages\Dashboard::class,
             ])
+            ->renderHook(
+                'panels::topbar.start',
+                fn() => view('partials.header')
+            )
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->plugins([
-                \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
+                \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make(),
+                FilamentApexChartsPlugin::make()
             ])
             ->widgets([
                 // Widgets\AccountWidget::class,

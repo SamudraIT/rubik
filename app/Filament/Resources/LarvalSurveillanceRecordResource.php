@@ -15,6 +15,7 @@ use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -32,6 +33,13 @@ class LarvalSurveillanceRecordResource extends Resource
     protected static ?string $navigationGroup = 'Laporan';
 
     protected static ?string $slug = 'pencatatan-jentik';
+
+    public static function getEloquentQuery(): Builder
+    {
+        $user = auth()->user();
+
+        return parent::getEloquentQuery()->where('district_id', $user->profile->district_id);
+    }
 
     public static function form(Form $form): Form
     {
@@ -118,7 +126,21 @@ class LarvalSurveillanceRecordResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('reporter_name')
+                    ->label('Nama Pelapor'),
+                TextColumn::make('reporter_code')
+                    ->label('Kode Pelapor'),
+                TextColumn::make('ovitrap_ownership')
+                    ->label('Kepemilikan Ovitrap'),
+                TextColumn::make('location')
+                    ->label('Lokasi'),
+                TextColumn::make('keberadaanJentik.larva_location')
+                    ->label('Lokasi Jentik'),
+                TextColumn::make('keberadaanJentik.status')
+                    ->label('Status Jentik'),
+                TextColumn::make('reported_date')
+                    ->label('Tanggal Pelaporan')
+                    ->date(),
             ])
             ->filters([
                 //

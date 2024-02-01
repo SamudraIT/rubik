@@ -18,7 +18,12 @@ class SuperVisorLarvaTable extends BaseWidget
                 LarvalSurveillanceRecord::query()
             )
             ->columns([
-                //
+                TextColumn::make('district.name')
+                    ->label('Kecamatan'),
+                TextColumn::make('district.sub_district.name')
+                    ->label('Kelurahan'),
+                TextColumn::make('rw')
+                    ->label('RW')
             ]);
     }
 }

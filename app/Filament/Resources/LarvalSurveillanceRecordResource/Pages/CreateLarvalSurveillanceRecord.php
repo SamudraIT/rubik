@@ -4,6 +4,7 @@ namespace App\Filament\Resources\LarvalSurveillanceRecordResource\Pages;
 
 use App\Filament\Resources\LarvalSurveillanceRecordResource;
 use App\Models\LarvaLocationRecord;
+use App\Models\LarvaRecordTable;
 use App\Models\Profile;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
@@ -20,6 +21,7 @@ class CreateLarvalSurveillanceRecord extends CreateRecord
 
         if ($profile) {
             $data['district_id'] = $profile['district_id'];
+            $data['rw'] = $profile['rw'];
         }
         return $data;
     }
@@ -39,6 +41,16 @@ class CreateLarvalSurveillanceRecord extends CreateRecord
         unset($data['larva_location']);
         unset($data['status']);
 
-        return static::getModel()::create($data);
+        $newRecord = static::getModel()::create($data);
+
+        $profile = Profile::where('user_id', $data['user_id'])->first();
+        LarvaRecordTable::create([
+            'district' => $profile->district->name,
+            'sub_district' => $profile->district->sub_district[0]->name,
+            'rw' => $data['rw'],
+            'larval_surveillance_record_id' => $newRecord['id']
+        ]);
+
+        return $newRecord;
     }
 }

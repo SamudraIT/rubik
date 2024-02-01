@@ -10,6 +10,13 @@ class EditDengueCaseReport extends EditRecord
 {
     protected static string $resource = DengueCaseReportResource::class;
 
+    protected function mutateFormDataBeforeFill(array $data): array
+    {
+        $data['diseases_symptom'] = explode(', ', $data['diseases_symptom']);
+
+        return $data;
+    }
+
     protected function getHeaderActions(): array
     {
         return [
