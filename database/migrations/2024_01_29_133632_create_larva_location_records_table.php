@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->string('larva_location');
             $table->string('status');
             $table->string('reporter_code');
+            $table->foreignId('larval_surveillance_record_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

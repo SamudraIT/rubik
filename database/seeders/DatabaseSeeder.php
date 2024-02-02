@@ -139,5 +139,19 @@ class DatabaseSeeder extends Seeder
                 'permission_id' => $permissionId
             ]);
         }
+
+        \App\Models\Hospital::create([
+            'name' => 'Mitra Keluarga',
+        ]);
+
+        $panmas = \App\Models\District::create([
+            'name' => 'Pancoran Mas',
+        ]);
+
+        \App\Models\SubDistrict::create([
+            'name' => 'Pancoran Mas',
+            'district_id' => $panmas->id,
+        ]);
+
     }
 }

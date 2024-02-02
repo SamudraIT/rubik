@@ -23,17 +23,17 @@ class LarvalSurveillanceRecord extends Model
         "rw",
         "reporter_code",
         "user_id",
-        "district_id"
+        "sub_district_id"
     ];
 
-    public function district(): BelongsTo
+    public function subDistrict(): BelongsTo
     {
-        return $this->belongsTo(District::class, 'district_id');
+        return $this->belongsTo(SubDistrict::class, 'sub_district_id');
     }
 
     public function keberadaanJentik(): HasMany
     {
-        return $this->hasMany(LarvaLocationRecord::class, 'reporter_code', 'reporter_code');
+        return $this->hasMany(LarvaLocationRecord::class, 'id', 'larval_surveillance_record_id');
     }
 
     public function larveTable(): HasMany

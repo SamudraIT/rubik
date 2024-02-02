@@ -37,10 +37,12 @@ class DengueCaseReportResource extends Resource
     {
         $user = auth()->user();
 
-        if ($user->profile->healthcare_professional) {
+        if ($user->profile && $user->profile->healthcare_professional) {
             return parent::getEloquentQuery()->where('hospital_id', $user->profile->hospital_id);
+        } else if ($user->profile && $user->profile->sub_district_id) {
+            return parent::getEloquentQuery()->where('sub_district_id', $user->profile->sub_district_id);
         } else {
-            return parent::getEloquentQuery()->where('district_id', $user->profile->district_id);
+            return parent::getEloquentQuery();
         }
     }
 

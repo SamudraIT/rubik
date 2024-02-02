@@ -23,14 +23,15 @@ class DengueCaseReport extends Model
         "recovery_date",
         "rw",
         "phone_number",
+        "is_confirm",
         "hospital_id",
         "user_id",
-        "district_id"
+        "sub_district_id"
     ];
 
-    public function district(): BelongsTo
+    public function subDistrict(): BelongsTo
     {
-        return $this->belongsTo(District::class, 'district_id');
+        return $this->belongsTo(SubDistrict::class, 'sub_district_id');
     }
 
     public function user(): BelongsTo

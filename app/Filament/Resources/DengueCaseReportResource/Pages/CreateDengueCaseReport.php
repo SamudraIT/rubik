@@ -22,8 +22,8 @@ class CreateDengueCaseReport extends CreateRecord
         $newRecord = static::getModel()::create($data);
 
         DengueCaseTable::create([
-            'district' => $profile->district->name,
-            'sub_district' => $profile->district->sub_district[0]->name,
+            'district' => $profile->subDistrict->name,
+            'sub_district' => $profile->subDistrict->district->name,
             'rw' => $data['rw'],
             'dengue_case_report_id' => $newRecord['id']
         ]);
@@ -36,7 +36,7 @@ class CreateDengueCaseReport extends CreateRecord
         $data['user_id'] = auth()->id();
         $profile = Profile::where('user_id', $data['user_id'])->first();
 
-        $data['district_id'] = $profile['district_id'];
+        $data['sub_district_id'] = $profile['sub_district_id'];
         $data['rw'] = $profile['rw'];
 
         return $data;

@@ -4,6 +4,7 @@ namespace App\Filament\Pages;
 
 use App\Models\District;
 use App\Models\Profile as ModelsProfile;
+use App\Models\SubDistrict;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -35,7 +36,8 @@ class Profile extends Page
 
     public function form(Form $form): Form
     {
-        $districts = District::pluck('name', 'id')->toArray();
+        // tambah nama kecamatan
+        $subDistrict = SubDistrict::pluck('name', 'id')->toArray();
 
         return $form
             ->schema([
@@ -75,9 +77,9 @@ class Profile extends Page
                                 'Sewa/Kontrak' => 'Sewa/Kontrak'
                             ])
                             ->required(),
-                        Select::make('district_id')
+                        Select::make('sub_district_id')
                             ->label('Kelurahan')
-                            ->options($districts)
+                            ->options($subDistrict)
                             ->required(),
                     ])->columns(2),
             ])

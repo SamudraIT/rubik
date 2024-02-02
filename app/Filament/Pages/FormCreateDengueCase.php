@@ -3,6 +3,7 @@
 namespace App\Filament\Pages;
 
 use App\Models\DengueCaseReport;
+use App\Models\DengueCaseTable;
 use Filament\Pages\Page;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Actions\Action;
@@ -107,11 +108,19 @@ class FormCreateDengueCase extends Page
             $data = $this->form->getState();
             $data['diseases_symptom'] = implode(", ", $data['diseases_symptom']);
 
-            $data['district_id'] = $user_profile['district_id'];
+            $data['sub_district_id'] = $user_profile['sub_district_id'];
             $data['rw'] = $user_profile['rw'];
             $data['user_id'] = auth()->user()->id;
 
-            DengueCaseReport::create($data);
+            $newRecord = DengueCaseReport::create($data);
+
+            DengueCaseTable::create([
+                'district' => $user_profile->subDistrict->name,
+                'sub_district' => $user_profile->subDistrict->district->name,
+                'rw' => $data['rw'],
+                'dengue_case_report_id' => $newRecord['id']
+            ]);
+
 
         } catch (Halt $exception) {
             return;

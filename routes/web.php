@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Models\DengueCaseReport;
+use App\Models\LarvalSurveillanceRecord;
 use Illuminate\Support\Facades\Route;
 use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 
@@ -39,8 +40,8 @@ Route::post('reset-password', [AuthController::class, 'resetPassword']);
 Route::get('/api/timer', function () {
     $user = auth()->user();
 
-    $lastCase = DengueCaseReport::where('user_id', $user->id)
-        ->orderBy('created_at', 'desc')
+    $lastCase = LarvalSurveillanceRecord::where('user_id', $user->id)
+        ->orderBy('reported_date', 'desc')
         ->first();
 
     return response()->json($lastCase);

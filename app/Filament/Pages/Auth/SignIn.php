@@ -116,4 +116,13 @@ class SignIn extends Login
     }
   }
 
+  protected function getCredentialsFromFormData(array $data): array
+  {
+
+    return [
+      'id' => $data['id'],
+      'password' => $data['password'],
+    ];
+  }
+
 }

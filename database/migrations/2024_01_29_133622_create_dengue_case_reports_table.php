@@ -20,9 +20,10 @@ return new class extends Migration {
             $table->date('confirmation_date');
             $table->date('recovery_date');
             $table->string('rw');
+            $table->boolean('is_confirm')->default(false);
             $table->foreignId('hospital_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('district_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('sub_district_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

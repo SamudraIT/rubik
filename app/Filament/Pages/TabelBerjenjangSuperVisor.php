@@ -28,7 +28,7 @@ class TabelBerjenjangSuperVisor extends Page
     {
         $user = auth()->user()->profile;
 
-        return DengueCaseTable::where('district', $user->district->name)
+        return DengueCaseTable::where('sub_district', $user->subDistrict->name)
             ->groupBy(['district', 'sub_district', 'rw'])
             ->selectRaw('count(*) as count, district, sub_district, rw')
             ->get();
@@ -38,7 +38,7 @@ class TabelBerjenjangSuperVisor extends Page
     {
         $user = auth()->user()->profile;
 
-        return LarvaRecordTable::where('district', $user->district->name)
+        return LarvaRecordTable::where('sub_district', $user->subDistrict->name)
             ->groupBy(['district', 'sub_district', 'rw'])
             ->selectRaw('count(*) as count, district, sub_district, rw')
             ->get();

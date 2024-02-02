@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class LarvaLocationRecord extends Model
 {
@@ -14,6 +15,12 @@ class LarvaLocationRecord extends Model
     protected $fillable = [
         "larva_location",
         "status",
-        "reporter_code"
+        "reporter_code",
+        "larval_surveillance_record_id"
     ];
+
+    public function pencatatanJentik(): BelongsTo
+    {
+        return $this->belongsTo(LarvalSurveillanceRecord::class, 'larval_surveillance_record_id');
+    }
 }

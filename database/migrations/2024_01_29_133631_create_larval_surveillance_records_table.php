@@ -21,7 +21,7 @@ return new class extends Migration {
             $table->string('reporter_code');
             $table->string('rw');
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('district_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('sub_district_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

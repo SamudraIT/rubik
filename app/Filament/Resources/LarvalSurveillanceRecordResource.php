@@ -38,7 +38,7 @@ class LarvalSurveillanceRecordResource extends Resource
     {
         $user = auth()->user();
 
-        return parent::getEloquentQuery()->where('district_id', $user->profile->district_id);
+        return parent::getEloquentQuery()->where('sub_district_id', $user->profile->sub_district_id);
     }
 
     public static function form(Form $form): Form

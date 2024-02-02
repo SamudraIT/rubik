@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->string('address')->nullable();
             $table->string('place_status')->nullable();
             $table->boolean('healthcare_professional')->default(false);
-            $table->foreignId('district_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignId('sub_district_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignId('hospital_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();

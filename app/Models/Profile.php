@@ -20,18 +20,18 @@ class Profile extends Model
         "address",
         "place_status",
         "healthcare_professional",
-        "district_id",
+        "sub_district_id",
         "hospital_id",
         "user_id"
     ];
 
-    public function districts(): HasMany
+    public function subDistricts(): HasMany
     {
-        return $this->hasMany(District::class, 'district_id', 'id');
+        return $this->hasMany(SubDistrict::class, 'sub_district_id', 'id');
     }
 
-    public function district(): BelongsTo
+    public function subDistrict(): BelongsTo
     {
-        return $this->belongsTo(District::class, 'district_id');
+        return $this->belongsTo(SubDistrict::class, 'sub_district_id');
     }
 }

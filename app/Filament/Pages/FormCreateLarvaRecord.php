@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Models\DengueCaseTable;
 use App\Models\LarvaLocationRecord;
 use App\Models\LarvalSurveillanceRecord;
 use Filament\Pages\Page;
@@ -132,7 +133,7 @@ class FormCreateLarvaRecord extends Page
             $data = $this->form->getState();
             $data['larva_location'] = implode(", ", $data['larva_location']);
 
-            $data['district_id'] = $user_profile['district_id'];
+            $data['sub_district_id'] = $user_profile['sub_district_id'];
             $data['rw'] = $user_profile['rw'];
             $data['user_id'] = $user_profile['user_id'];
 
@@ -145,7 +146,14 @@ class FormCreateLarvaRecord extends Page
             unset($data['larva_location']);
             unset($data['status']);
 
-            LarvalSurveillanceRecord::create($data);
+            $newRecord = LarvalSurveillanceRecord::create($data);
+
+            DengueCaseTable::create([
+                'district' => $user_profile->subDistrict->name,
+                'sub_district' => $user_profile->subDistrict->district->name,
+                'rw' => $data['rw'],
+                'dengue_case_report_id' => $newRecord['id']
+            ]);
         } catch (Halt $exception) {
             return;
         }

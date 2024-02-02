@@ -20,7 +20,7 @@ class CreateLarvalSurveillanceRecord extends CreateRecord
         $profile = Profile::where('user_id', $data['user_id'])->first();
 
         if ($profile) {
-            $data['district_id'] = $profile['district_id'];
+            $data['sub_district_id'] = $profile['sub_district_id'];
             $data['rw'] = $profile['rw'];
         }
         return $data;
@@ -30,23 +30,22 @@ class CreateLarvalSurveillanceRecord extends CreateRecord
     {
         $data['larva_location'] = implode(", ", $data['larva_location']);
 
+        $newRecord = static::getModel()::create($data);
+
         $larva_location_data = [
             'larva_location' => $data['larva_location'],
             'status' => $data['status'],
-            'reporter_code' => $data['reporter_code']
+            'reporter_code' => $data['reporter_code'],
+            'larval_surveillance_record_id' => $newRecord['id']
         ];
 
         LarvaLocationRecord::create($larva_location_data);
 
-        unset($data['larva_location']);
-        unset($data['status']);
-
-        $newRecord = static::getModel()::create($data);
 
         $profile = Profile::where('user_id', $data['user_id'])->first();
         LarvaRecordTable::create([
-            'district' => $profile->district->name,
-            'sub_district' => $profile->district->sub_district[0]->name,
+            'district' => $profile->subDistrict->name,
+            'sub_district' => $profile->subDistrict->district->name,
             'rw' => $data['rw'],
             'larval_surveillance_record_id' => $newRecord['id']
         ]);

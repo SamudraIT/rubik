@@ -36,6 +36,7 @@ class DashboardPanelProvider extends PanelProvider
 
             ])
             ->favicon(asset('img/logo.png'))
+            ->brandLogo(fn() => view('filament.partials.logo'))
             ->darkMode(false)
             ->userMenuItems([
                 MenuItem::make()
@@ -52,7 +53,7 @@ class DashboardPanelProvider extends PanelProvider
             ])
             ->renderHook(
                 'panels::topbar.start',
-                fn() => view('partials.header')
+                fn() => view('partials.header'),
             )
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->plugins([
@@ -77,6 +78,6 @@ class DashboardPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->spa();
+        ;
     }
 }
