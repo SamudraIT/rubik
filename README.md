@@ -3,7 +3,7 @@
 1. Pertama clone project
 
 ```
-git clone
+git clone https://github.com/SamudraIT/rubik.git
 ```
 
 2. Kedua jalankan
@@ -28,4 +28,20 @@ php artisan shield:install
 
 ```
 php artisan db:seed
+```
+
+# Step setelah install
+
+1. Hapus repo git
+
+## linux / max / minGW(Windows)
+
+```
+rm -rf .git
+```
+
+## windows
+
+```
+rmdir /s .git
 ```
