@@ -2,7 +2,7 @@
 
 @section('content')
 <style>
-  #carouselExampleFade .carousel-inner img {
+  /* #carouselExampleFade .carousel-inner img {
     max-height: 600px;
     width: auto;
     margin: auto;
@@ -16,7 +16,7 @@
     .myCarousel-container {
       margin: 0;
     }
-  }
+  } */
 
 </style>
 
@@ -55,9 +55,6 @@
         <span class="visually-hidden">Next</span>
       </button>
     </div>
-
-
   </div>
-
 </div>
 @endsection
