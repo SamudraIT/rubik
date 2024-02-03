@@ -8,10 +8,10 @@
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
             <th scope="col" class="px-6 py-3">
-              Kelurahan
+              Kelurahan ({{ $this->getDengueDistrictCount() }})
             </th>
             <th scope="col" class="px-6 py-3">
-              RW
+              RW ({{ $this->getDengueRwCount() }})
             </th>
           </tr>
         </thead>
@@ -37,10 +37,10 @@
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
             <th scope="col" class="px-6 py-3">
-              Kelurahan
+              Kelurahan ({{ $this->getLarvaDistrictCount() }})
             </th>
             <th scope="col" class="px-6 py-3">
-              RW
+              RW ({{ $this->getLarvaRwCount() }})
             </th>
           </tr>
         </thead>

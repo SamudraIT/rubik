@@ -6,6 +6,7 @@ use App\Models\DengueCaseTable;
 use App\Models\LarvaRecordTable;
 use Filament\Pages\Page;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
+use Illuminate\Support\Facades\DB;
 
 class TabelBerjenjang extends Page
 {
@@ -22,10 +23,52 @@ class TabelBerjenjang extends Page
             ->get();
     }
 
+    public function getDengueDistrictCount()
+    {
+        return DengueCaseTable::select(DB::raw('COUNT(DISTINCT district) as count'))
+            ->whereNotNull('district')
+            ->count() ?? 0;
+    }
+
+    public function getDengueSubDistrictCount()
+    {
+        return DengueCaseTable::select(DB::raw('COUNT(DISTINCT sub_district) as count'))
+            ->whereNotNull('sub_district')
+            ->count() ?? 0;
+    }
+
+    public function getDengueRwCount()
+    {
+        return DengueCaseTable::select(DB::raw('COUNT(DISTINCT rw) as count'))
+            ->whereNotNull('rw')
+            ->count() ?? 0;
+    }
+
     public function getLarvaData()
     {
         return LarvaRecordTable::groupBy(['district', 'sub_district', 'rw'])
             ->selectRaw('count(*) as count, district, sub_district, rw')
             ->get();
+    }
+
+    public function getLarvaDistrictCount()
+    {
+        return LarvaRecordTable::select(DB::raw('COUNT(DISTINCT district) as count'))
+            ->whereNotNull('district')
+            ->count() ?? 0;
+    }
+
+    public function getLarvaSubDistrictCount()
+    {
+        return LarvaRecordTable::select(DB::raw('COUNT(DISTINCT sub_district) as count'))
+            ->whereNotNull('sub_district')
+            ->count() ?? 0;
+    }
+
+    public function getLarvaRwCount()
+    {
+        return LarvaRecordTable::select(DB::raw('COUNT(DISTINCT rw) as count'))
+            ->whereNotNull('rw')
+            ->count() ?? 0;
     }
 }

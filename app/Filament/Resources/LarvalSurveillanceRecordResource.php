@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\LarvalSurveillanceRecordResource\Pages;
 use App\Filament\Resources\LarvalSurveillanceRecordResource\RelationManagers;
 use App\Models\LarvalSurveillanceRecord;
+use App\Models\ModelHasRole;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
@@ -37,8 +38,14 @@ class LarvalSurveillanceRecordResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         $user = auth()->user();
+        $find_role = ModelHasRole::where('model_id', auth()->id())->first();
+        $user_role = $find_role->role;
 
-        return parent::getEloquentQuery()->where('sub_district_id', $user->profile->sub_district_id);
+        if ($user_role['name'] == 'penghuni') {
+            return parent::getEloquentQuery()->where('sub_district_id', $user->profile->sub_district_id);
+        } else {
+            return parent::getEloquentQuery();
+        }
     }
 
     public static function form(Form $form): Form

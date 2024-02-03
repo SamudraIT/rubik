@@ -31,9 +31,9 @@ class LarvalSurveillanceRecord extends Model
         return $this->belongsTo(SubDistrict::class, 'sub_district_id');
     }
 
-    public function keberadaanJentik(): HasMany
+    public function keberadaanJentik(): BelongsTo
     {
-        return $this->hasMany(LarvaLocationRecord::class, 'id', 'larval_surveillance_record_id');
+        return $this->belongsTo(LarvaLocationRecord::class, 'id', 'larval_surveillance_record_id');
     }
 
     public function larveTable(): HasMany

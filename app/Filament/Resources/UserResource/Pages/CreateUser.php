@@ -21,11 +21,14 @@ class CreateUser extends CreateRecord
             'password' => $data['password']
         ]);
 
-        Profile::create([
-            'healthcare_professional' => $data['healthcare_professional'],
-            'hospital_id' => $data['hospital'],
-            'user_id' => $newRecord->id
-        ]);
+        if ($data['healthcare_professional']) {
+            Profile::create([
+                'healthcare_professional' => $data['healthcare_professional'],
+                'hospital_id' => $data['hospital'],
+                'user_id' => $newRecord->id
+            ]);
+        }
+
 
         return $newRecord;
     }

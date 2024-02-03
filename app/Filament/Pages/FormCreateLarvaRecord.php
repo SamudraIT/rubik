@@ -5,6 +5,7 @@ namespace App\Filament\Pages;
 use App\Models\DengueCaseTable;
 use App\Models\LarvaLocationRecord;
 use App\Models\LarvalSurveillanceRecord;
+use App\Models\LarvaRecordTable;
 use Filament\Pages\Page;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Actions\Action;
@@ -137,23 +138,22 @@ class FormCreateLarvaRecord extends Page
             $data['rw'] = $user_profile['rw'];
             $data['user_id'] = $user_profile['user_id'];
 
+            $newRecord = LarvalSurveillanceRecord::create($data);
+
             LarvaLocationRecord::create([
                 'larva_location' => $data['larva_location'],
                 'status' => $data['status'],
-                'reporter_code' => $data['reporter_code']
+                'reporter_code' => $data['reporter_code'],
+                'larval_surveillance_record_id' => $newRecord['id']
             ]);
 
-            unset($data['larva_location']);
-            unset($data['status']);
-
-            $newRecord = LarvalSurveillanceRecord::create($data);
-
-            DengueCaseTable::create([
+            LarvaRecordTable::create([
                 'district' => $user_profile->subDistrict->name,
                 'sub_district' => $user_profile->subDistrict->district->name,
                 'rw' => $data['rw'],
-                'dengue_case_report_id' => $newRecord['id']
+                'larval_surveillance_record_id' => $newRecord['id']
             ]);
+
         } catch (Halt $exception) {
             return;
         }

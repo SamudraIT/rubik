@@ -5,17 +5,21 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\DengueCaseReportResource\Pages;
 use App\Filament\Resources\DengueCaseReportResource\RelationManagers;
 use App\Models\DengueCaseReport;
+use App\Models\ModelHasRole;
+use Filament\Tables\Actions\Action;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\DB;
 
@@ -36,11 +40,17 @@ class DengueCaseReportResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         $user = auth()->user();
+        $find_role = ModelHasRole::where('model_id', auth()->id())->first();
+        $user_role = $find_role->role;
 
         if ($user->profile && $user->profile->healthcare_professional) {
             return parent::getEloquentQuery()->where('hospital_id', $user->profile->hospital_id);
         } else if ($user->profile && $user->profile->sub_district_id) {
-            return parent::getEloquentQuery()->where('sub_district_id', $user->profile->sub_district_id);
+            if ($user_role['name'] == 'penghuni') {
+                return parent::getEloquentQuery()->where('sub_district_id', $user->profile->sub_district_id)->where('is_confirm', true);
+            } else {
+                return parent::getEloquentQuery();
+            }
         } else {
             return parent::getEloquentQuery();
         }
@@ -115,6 +125,62 @@ class DengueCaseReportResource extends Resource
 
     public static function table(Table $table): Table
     {
+        $find_role = ModelHasRole::where('model_id', auth()->id())->first();
+        $user_role = $find_role->role;
+        $actionsTable = [];
+
+        if ($user_role['name'] == 'penghuni') {
+            $actionsTable = [
+                Tables\Actions\EditAction::make(),
+            ];
+        } else {
+            $actionsTable = [
+                Action::make('confirm')
+                    ->visible(function (Model $record) {
+                        return $record->is_confirm ? false : true;
+                    })
+                    ->label('Confirm')
+                    ->action(function (DengueCaseReport $record) {
+                        $record->update([
+                            'is_confirm' => true
+                        ]);
+
+                        Notification::make()
+                            ->success()
+                            ->title('Laporan berhasil di konfirmasi')
+                            ->send();
+                    })
+                    ->requiresConfirmation()
+                    ->modalHeading('Konfirmasi Kasus')
+                    ->color('success')
+                    ->modalIcon('heroicon-o-information-circle')
+                    ->modalDescription('Anda yakin ingin mengkonfirmasi?')
+                    ->modalSubmitActionLabel('Ya, Saya yakin'),
+                Action::make('cancel')
+                    ->visible(function (Model $record) {
+                        return $record->is_confirm ? true : false;
+                    })
+                    ->label('Cancel')
+                    ->action(function (DengueCaseReport $record) {
+                        $record->update([
+                            'is_confirm' => false
+                        ]);
+
+                        Notification::make()
+                            ->success()
+                            ->title('Konfirmasi Laporan berhasil di batalkan')
+                            ->send();
+                    })
+                    ->requiresConfirmation()
+                    ->modalHeading('Konfirmasi Kasus')
+                    ->color('danger')
+                    ->modalIcon('heroicon-o-information-circle')
+                    ->modalDescription('Anda yakin ingin membatalkan konfirmasi?')
+                    ->modalSubmitActionLabel('Ya, Saya yakin'),
+                Tables\Actions\EditAction::make(),
+            ];
+        }
+
         return $table
             ->columns([
                 TextColumn::make('patient_name')
@@ -132,9 +198,9 @@ class DengueCaseReportResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
+            ->actions(
+                $actionsTable
+            )
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),

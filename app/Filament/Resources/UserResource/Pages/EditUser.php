@@ -15,9 +15,12 @@ class EditUser extends EditRecord
     {
         $profile = Profile::where('user_id', $data['id'])->first();
 
-        $data['healthcare_professional'] = $profile['healthcare_professional'];
+        if ($profile && $profile['healthcare_professional']) {
+            $data['healthcare_professional'] = $profile['healthcare_professional'];
 
-        $data['hospital'] = $profile['hospital_id'];
+            $data['hospital'] = $profile['hospital_id'];
+        }
+
 
         return $data;
     }

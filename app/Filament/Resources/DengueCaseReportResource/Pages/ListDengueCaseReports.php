@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\DengueCaseReportResource\Pages;
 
 use App\Filament\Resources\DengueCaseReportResource;
+use App\Models\ModelHasRole;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use pxlrbt\FilamentExcel\Columns\Column;
@@ -17,19 +18,28 @@ class ListDengueCaseReports extends ListRecords
 
     protected function getHeaderActions(): array
     {
-        return [
-            Actions\CreateAction::make(),
-            ExportAction::make()
-                ->exports([
-                    ExcelExport::make()
-                        ->fromTable()
-                        ->withFilename(fn($resource) => $resource::getModelLabel() . '_' . date('Y-m-d'))
-                        ->withWriterType(\Maatwebsite\Excel\Excel::CSV)
-                        ->withColumns([
-                            Column::make('updated_at')
-                        ])
-                ])
-        ];
+        $find_role = ModelHasRole::where('model_id', auth()->id())->first();
+        $user_role = $find_role->role;
+
+        if ($user_role['name'] == 'super_admin') {
+            return [
+                Actions\CreateAction::make(),
+                ExportAction::make()
+                    ->exports([
+                        ExcelExport::make()
+                            ->fromTable()
+                            ->withFilename(fn($resource) => $resource::getModelLabel() . '_' . date('Y-m-d'))
+                            ->withWriterType(\Maatwebsite\Excel\Excel::CSV)
+                            ->withColumns([
+                                Column::make('updated_at')
+                            ])
+                    ])
+            ];
+        } else {
+            return [
+                Actions\CreateAction::make(),
+            ];
+        }
     }
 
     public function getTabs(): array

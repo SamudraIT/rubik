@@ -8,13 +8,15 @@
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
             <th scope="col" class="px-6 py-3">
-              Kecamatan (2)
+              Kecamatan ({{ $this->getDengueSubDistrictCount() }})
+
             </th>
             <th scope="col" class="px-6 py-3">
-              Kelurahan (2)
+              Kelurahan ({{ $this->getDengueDistrictCount() }})
+
             </th>
             <th scope="col" class="px-6 py-3">
-              RW (2)
+              RW ({{ $this->getDengueRwCount() }})
             </th>
           </tr>
         </thead>
@@ -43,15 +45,18 @@
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
             <th scope="col" class="px-6 py-3">
-              Kecamatan
+              Kecamatan ({{ $this->getLarvaSubDistrictCount() }})
+
             </th>
             <th scope="col" class="px-6 py-3">
-              Kelurahan
+              Kelurahan ({{ $this->getLarvaDistrictCount() }})
+
             </th>
             <th scope="col" class="px-6 py-3">
-              RW
+              RW ({{ $this->getLarvaRwCount() }})
             </th>
           </tr>
+
         </thead>
         <tbody>
           @foreach($this->getLarvaData() as $dengueCase)
