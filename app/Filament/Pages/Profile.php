@@ -37,7 +37,14 @@ class Profile extends Page
     public function form(Form $form): Form
     {
         // tambah nama kecamatan
-        $subDistrict = SubDistrict::pluck('name', 'id')->toArray();
+        // $subDistrict = SubDistrict::pluck('name', 'id')->toArray();
+        $subDistrict = SubDistrict::with('district')->get();
+
+        $options = $subDistrict->map(function ($subDistrict) {
+            return [
+                $subDistrict['id'] => $subDistrict['name'] . ' - ' . $subDistrict->district->name
+            ];
+        })->flatten();
 
         return $form
             ->schema([
@@ -79,7 +86,8 @@ class Profile extends Page
                             ->required(),
                         Select::make('sub_district_id')
                             ->label('Kelurahan')
-                            ->options($subDistrict)
+                            ->searchable()
+                            ->options($options)
                             ->required(),
                     ])->columns(2),
             ])

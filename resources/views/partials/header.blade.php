@@ -31,7 +31,7 @@
 
 </style>
 
-@if(auth()->user()->profile->healthcare_professional)
+@if(auth()->user()->profile && auth()->user()->profile->healthcare_professional)
 
 @elseif(auth()->user()->modelHasRole[0]->role->name == "super_admin")
 
