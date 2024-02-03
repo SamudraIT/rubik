@@ -25,23 +25,48 @@ class TabelBerjenjang extends Page
 
     public function getDengueDistrictCount()
     {
-        return DengueCaseTable::select(DB::raw('COUNT(DISTINCT district) as count'))
-            ->whereNotNull('district')
-            ->count() ?? 0;
+        $dengue_case = DengueCaseTable::get();
+
+        $allDistrictArrays = $dengue_case->map(function ($item) {
+            return $item->district;
+        });
+
+        $uniqueDistrict = $allDistrictArrays->flatten()->unique();
+
+        $DistrictCount = $uniqueDistrict->count();
+
+        return $DistrictCount;
     }
 
     public function getDengueSubDistrictCount()
     {
-        return DengueCaseTable::select(DB::raw('COUNT(DISTINCT sub_district) as count'))
-            ->whereNotNull('sub_district')
-            ->count() ?? 0;
+        $dengue_case = DengueCaseTable::get();
+
+        $allSubDistrictArrays = $dengue_case->map(function ($item) {
+            return $item->sub_district;
+        });
+
+        $uniqueSubDistrict = $allSubDistrictArrays->flatten()->unique();
+
+        $subDistrictCount = $uniqueSubDistrict->count();
+
+        return $subDistrictCount;
+
     }
 
     public function getDengueRwCount()
     {
-        return DengueCaseTable::select(DB::raw('COUNT(DISTINCT rw) as count'))
-            ->whereNotNull('rw')
-            ->count() ?? 0;
+        $dengue_case = DengueCaseTable::get();
+
+        $allRwArrays = $dengue_case->map(function ($item) {
+            return $item->rw;
+        });
+
+        $uniqueRw = $allRwArrays->flatten()->unique();
+
+        $rwCount = $uniqueRw->count();
+
+        return $rwCount;
     }
 
     public function getLarvaData()
@@ -49,26 +74,63 @@ class TabelBerjenjang extends Page
         return LarvaRecordTable::groupBy(['district', 'sub_district', 'rw'])
             ->selectRaw('count(*) as count, district, sub_district, rw')
             ->get();
+
+
     }
 
     public function getLarvaDistrictCount()
     {
-        return LarvaRecordTable::select(DB::raw('COUNT(DISTINCT district) as count'))
-            ->whereNotNull('district')
-            ->count() ?? 0;
+        // return LarvaRecordTable::select(DB::raw('COUNT(DISTINCT district) as count'))
+        //     ->whereNotNull('district')
+        //     ->count() ?? 0;
+
+        $larvaRecord = LarvaRecordTable::get();
+
+        $allDistrictArrays = $larvaRecord->map(function ($item) {
+            return $item->district;
+        });
+
+        $uniqueDistrict = $allDistrictArrays->flatten()->unique();
+
+        $DistrictCount = $uniqueDistrict->count();
+
+        return $DistrictCount;
     }
 
     public function getLarvaSubDistrictCount()
     {
-        return LarvaRecordTable::select(DB::raw('COUNT(DISTINCT sub_district) as count'))
-            ->whereNotNull('sub_district')
-            ->count() ?? 0;
+        // return LarvaRecordTable::select(DB::raw('COUNT(DISTINCT sub_district) as count'))
+        //     ->whereNotNull('sub_district')
+        //     ->count() ?? 0;
+        $larvaRecord = LarvaRecordTable::get();
+
+        $allDistrictArrays = $larvaRecord->map(function ($item) {
+            return $item->sub_district;
+        });
+
+        $uniqueDistrict = $allDistrictArrays->flatten()->unique();
+
+        $DistrictCount = $uniqueDistrict->count();
+
+        return $DistrictCount;
     }
 
     public function getLarvaRwCount()
     {
-        return LarvaRecordTable::select(DB::raw('COUNT(DISTINCT rw) as count'))
-            ->whereNotNull('rw')
-            ->count() ?? 0;
+        // return LarvaRecordTable::select(DB::raw('COUNT(DISTINCT rw) as count'))
+        //     ->whereNotNull('rw')
+        //     ->count() ?? 0;
+
+        $larvaRecord = LarvaRecordTable::get();
+
+        $allDistrictArrays = $larvaRecord->map(function ($item) {
+            return $item->rw;
+        });
+
+        $uniqueDistrict = $allDistrictArrays->flatten()->unique();
+
+        $DistrictCount = $uniqueDistrict->count();
+
+        return $DistrictCount;
     }
 }

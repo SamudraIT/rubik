@@ -8,15 +8,14 @@
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
             <th scope="col" class="px-6 py-3">
-              Kecamatan ({{ $this->getDengueSubDistrictCount() }})
+              Kecamatan
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Kelurahan
 
             </th>
             <th scope="col" class="px-6 py-3">
-              Kelurahan ({{ $this->getDengueDistrictCount() }})
-
-            </th>
-            <th scope="col" class="px-6 py-3">
-              RW ({{ $this->getDengueRwCount() }})
+              RW
             </th>
           </tr>
         </thead>
@@ -45,15 +44,15 @@
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
             <th scope="col" class="px-6 py-3">
-              Kecamatan ({{ $this->getLarvaSubDistrictCount() }})
+              Kecamatan
 
             </th>
             <th scope="col" class="px-6 py-3">
-              Kelurahan ({{ $this->getLarvaDistrictCount() }})
+              Kelurahan
 
             </th>
             <th scope="col" class="px-6 py-3">
-              RW ({{ $this->getLarvaRwCount() }})
+              RW
             </th>
           </tr>
 

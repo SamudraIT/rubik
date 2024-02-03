@@ -31,6 +31,11 @@
 
 </style>
 
+@if(auth()->user()->profile->healthcare_professional)
+
+@elseif(auth()->user()->modelHasRole[0]->role->name == "super_admin")
+
+@else
 <div class="popup-container" id="modal">
   <div class="popup-card h-fit rounded-lg p-4 shadow-lg">
     <div class="flex items-center justify-between">
@@ -136,3 +141,4 @@
   });
 
 </script>
+@endif
